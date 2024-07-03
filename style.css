@@ -1,0 +1,39 @@
+body{
+    background-color: #A9927D;
+}
+#container{
+    text-align: center;
+}
+table{
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 2em;
+    
+}
+colgroup, tbody { 
+    border: solid medium;
+        
+}
+
+td { 
+    border: solid thin; 
+    height: 1.4em; 
+    width: 1.4em; 
+    text-align: center;
+    padding: 0; 
+    
+}
+button { 
+    margin-top: 15px; 
+    font-size: 1.5em; 
+    border-radius: 10px;
+    color: #F2F4F3;
+    background-color: #5E503F;
+    padding: 10px;
+}
+    
+.heading{
+    padding-bottom: 10px;
+    color: #49111C;
+    font-size: 4rem;
+}

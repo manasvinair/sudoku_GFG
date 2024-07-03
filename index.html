@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <title>sudoku</title>
+</head>
+<body>
+    <div id="container">
+        
+        <h1 class="heading">Sudoku</h1>
+        
+        <table id="sudoku-board">
+            <colgroup><col><col><col>
+                <colgroup><col><col><col>
+                <colgroup><col><col><col>
+                <tbody>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+                <tbody>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+                <tbody>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+                 <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+              
+        </table>
+        <div>
+            <button id="solve">Solve</button>
+        </div>
+        <div>
+            <button id="clear">Clear Board</button>
+        </div>
+
+    </div>
+</body>
+<!-- script tag after body tag to ensure html elements are fully loaded befor implementing javascript logic. -->
+<script src="script.js"></script>
+<script>
+    <!-- to ensure valid input is recorded -->
+    document.getElementById("sudoku-board").addEventListener("keyup", function(event) {
+        if(event.target && event.target.nodeName == "TD") {
+          var validNum = /[1-9]/;
+          var tde = event.target;
+          if (tde.innerText.length > 0 && validNum.test(tde.innerText[0])) {
+            tde.innerText = tde.innerText[0]; // Ensure only the first character is kept
+          } else {
+            tde.innerText = ""; // Clear the cell if the input is invalid
+          }
+        }
+    });
+    //to check if the sudoku is solvable given the inputs
+
+    document.getElementById("solve").addEventListener("click", function(event) {
+        var boardString = boardToString();
+        var solution = SudokuSolver.solve(boardString);
+        if (solution) {
+          stringToBoard(solution);
+        } 
+        else {
+          alert("Invalid board!");
+        }
+    });
+    
+    // to clear board making each cell empty
+    document.getElementById("clear").addEventListener("click", clearBoard);
+    
+      function clearBoard() {
+        var tds = document.getElementsByTagName("td");
+        for (var i = 0; i < tds.length; i++) {
+          tds[i].innerText = "";
+        }
+    }
+
+    // converting the given input into strings
+    function boardToString() {
+        var string = "";
+        var validNum = /[1-9]/;
+        var tds = document.getElementsByTagName("td");
+        for (var i = 0; i < tds.length; i++) {
+          if (validNum.test(tds[i].innerText[0])) {
+            string += tds[i].innerText;
+          } else {
+            string += "-";
+          }
+        }
+        return string;
+    }
+    
+
+    // converting the answer string into values acceptable in the board
+    function stringToBoard(string) {
+        var currentCell;
+        var validNum = /[1-9]/;
+        var cells = string.split("");
+        var tds = document.getElementsByTagName("td");
+        for (var i = 0; i < tds.length; i++) {
+          currentCell = cells.shift();
+          if (validNum.test(currentCell)) {
+            tds[i].innerText = currentCell;
+          }
+        }
+    }
+
+    
+</script>
+
+</html>
